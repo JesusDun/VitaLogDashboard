@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>VitaLog Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body ng-controller="dashboardCtrl" class="bg-light">
+    
+    <div class="container-fluid p-4">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="mb-0">{{ saludo }}, {{ username }}! 👋</h1>
+                <p class="text-muted mb-0">Bienvenido a tu VitaLog Dashboard</p>
+            </div>
+            <button id="btnCerrarSesion" class="btn btn-outline-danger">Cerrar Sesión</button>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4"><div class="card text-white bg-primary"><div class="card-body"><h4>Sesiones Totales</h4><h5 id="totalSesiones">0</h5></div></div></div>
+            <div class="col-md-4"><div class="card text-white bg-success"><div class="card-body"><h4>Minutos Totales</h4><h5 id="totalMinutos">0</h5></div></div></div>
+            <div class="col-md-4"><div class="card text-white bg-warning"><div class="card-body"><h4>Calorías Quemadas</h4><h5 id="totalCalorias">0</h5></div></div></div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header"><h4><i class="bi bi-check2-square"></i> Check-in del Día</h4></div>
+                    <div class="card-body">
+                        <form id="frmCheckin">
+                            <div id="listaHabitosCheckin" class="list-group">
+                                <p class="text-muted">Cargando hábitos...</p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header"><h4><i class="bi bi-bicycle"></i> Añadir Ejercicio</h4></div>
+                    <div class="card-body">
+                        <form id="frmFitness">
+                            <div class="mb-2">
+                                <label class="form-label">Descripción</label>
+                                <input type="text" name="descripcion" class="form-control" placeholder="Ej: Correr en el parque" required>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Fecha</label>
+                                <input type="date" name="fecha" class="form-control" id="fitnessDate" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 mb-2">
+                                    <label class="form-label">Duración (min)</label>
+                                    <input type="number" name="duracion_min" class="form-control" value="30">
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <label class="form-label">Calorías</label>
+                                    <input type="number" name="calorias" class="form-control" placeholder="Ej: 250">
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Tipo</label>
+                                <select name="tipo" class="form-select">
+                                    <option value="cardio">Cardio</option>
+                                    <option value="fuerza">Fuerza</option>
+                                    <option value="flexibilidad">Flexibilidad</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 mt-2">Añadir</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header"><h4><i class="bi bi-calendar-heart"></i> Heatmap de Constancia</h4></div>
+                    <div class="card-body">
+                        <div class="chart-container-heatmap">
+                            <div id="graficoHeatmap"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card shadow-sm">
+                    <div class="card-header"><h4><i class="bi bi-bar-chart-line"></i> Calorías Quemadas (Últimos 7 Días)</h4></div>
+                    <div class="card-body">
+                        <div class="chart-container-bar">
+                            <div id="graficoBarrasFitness"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
