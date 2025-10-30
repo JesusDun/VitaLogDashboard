@@ -6,17 +6,17 @@ Pagina: (sin definir)
 
 ------------------------------------------------------------------------------
 
-Pagina de la DB: https://awos2024.free.nf/dbm
+Pagina de la DB: https://awos2024.free.nf/dbm/?server=185.232.14.52
 
 Credenciales ...
 
 Servidor: 185.232.14.52
 
-Base de Datos: u760464709_23005019_bd
+Base de Datos: u760464709_23005283_bd
 
-Usuario: u760464709_23005019_usr
+Usuario: u760464709_23005283_usr
 
-Contraseña: ]0Pxl25[
+Contraseña: rnUxcf3P#a
 
 ------------------------------------------------------------------------------
 
