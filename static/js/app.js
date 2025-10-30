@@ -44,6 +44,13 @@ app.controller("dashboardCtrl", function ($scope, $http) {
         cargarStatsFitness();
     }
 
+    function recargarDatos() {
+        console.log("¡Actualización recibida! Recargando datos...");
+        cargarHabitosCheckin();
+        cargarHeatmap();
+        cargarStatsFitness();
+    }
+
     function cargarHabitosCheckin() {
         $.get("/api/habitos", function (habitos) {
             const $lista = $("#listaHabitosCheckin").empty();
@@ -218,5 +225,6 @@ app.controller("dashboardCtrl", function ($scope, $http) {
     // --- INICIALIZACIÓN (Solo si estamos en el dashboard) ---
     if(window.location.pathname === '/dashboard') {
         inicializarTodo();
+        conectarPusher();
     }
 });
