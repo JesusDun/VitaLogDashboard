@@ -161,7 +161,6 @@ app.controller("dashboardCtrl", function ($scope, $http) {
         const idHabito = $(this).data("id");
         $.post("/api/habito/registrar", { idHabito: idHabito })
             .done(function() {
-                cargarHeatmap(); 
             })
             .fail(function(err) {
                 alert(err.responseJSON.error || "Error al registrar hábito.");
@@ -176,7 +175,6 @@ app.controller("dashboardCtrl", function ($scope, $http) {
             .done(function () {
                 $("#frmFitness")[0].reset();
                 document.getElementById('fitnessDate').valueAsDate = new Date();
-                cargarStatsFitness();
             })
             .fail(function (err) {
                 alert(err.responseJSON.error || "Error al añadir ejercicio.");
@@ -191,6 +189,31 @@ app.controller("dashboardCtrl", function ($scope, $http) {
             });
         }
     });
+
+    // --- NUEVO: Lógica de Pusher ---
+    function conectarPusher() {
+        try {
+            // Verificamos que las variables globales existan
+            if (typeof PUSHER_KEY_GLOBAL === 'undefined' || !PUSHER_KEY_GLOBAL) {
+                console.error("Pusher key no está definida. Revisa el template dashboard.html.");
+                return;
+            }
+            
+            const pusher = new Pusher(PUSHER_KEY_GLOBAL, {
+                cluster: PUSHER_CLUSTER_GLOBAL || 'us2'
+            });
+            
+            // Nombre del canal que definimos en el backend
+            const channel = pusher.subscribe('canal-vitalog'); 
+            
+            channel.bind('evento-actualizacion', function(data) {
+                console.log("¡Actualización recibida de Pusher!", data.message);
+                recargarDatos(); // Llamamos a la función unificada
+            });
+        } catch (e) {
+            console.error("Error al conectar con Pusher:", e);
+        }
+    }
 
     // --- INICIALIZACIÓN (Solo si estamos en el dashboard) ---
     if(window.location.pathname === '/dashboard') {
