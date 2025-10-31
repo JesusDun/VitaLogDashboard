@@ -195,10 +195,12 @@ def registrar_habito():
         if not existe:
             cursor.execute("INSERT INTO registros_habitos (idHabito, fecha) VALUES (%s, %s)", (id_habito, fecha))
             con.commit()
+            pusher_client.trigger('canal-vitalog', 'evento-actualizacion', {'message': 'nuevo checkin'})
             return make_response(jsonify({"status": "Hábito registrado"}), 201)
         else:
             cursor.execute("DELETE FROM registros_habitos WHERE idHabito = %s AND fecha = %s", (id_habito, fecha))
             con.commit()
+            pusher_client.trigger('canal-vitalog', 'evento-actualizacion', {'message': 'checkin eliminado'})
             return make_response(jsonify({"status": "Hábito des-registrado"}), 200)
             
     except mysql.connector.Error as err:
@@ -229,6 +231,7 @@ def add_fitness():
         sql = "INSERT INTO registros_fitness (idUsuario, fecha, descripcion, tipo, duracion_min, calorias) VALUES (%s, %s, %s, %s, %s, %s)"
         cursor.execute(sql, val)
         con.commit()
+        pusher_client.trigger('canal-vitalog', 'evento-actualizacion', {'message': 'nuevo fitness'})
         return make_response(jsonify({"status": "Ejercicio añadido"}), 201)
     except mysql.connector.Error as err:
         return make_response(jsonify({"error": f"Error de BD: {err}"}), 500)
