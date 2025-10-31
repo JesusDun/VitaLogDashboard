@@ -188,6 +188,19 @@ app.controller("dashboardCtrl", function ($scope, $http) {
             });
     });
 
+    $("#frmNuevoHabito").on("submit", function (event) {
+        event.preventDefault();
+        
+        $.post("/api/habito", $(this).serialize())
+            .done(function () {
+                $("#frmNuevoHabito")[0].reset();
+                cargarHabitosCheckin();
+            })
+            .fail(function (err) {
+                alert(err.responseJSON.error || "Error al crear el hábito.");
+            });
+    });
+
     // Botón de Cerrar Sesión
     $(document).on("click", "#btnCerrarSesion", function() {
         if (confirm("¿Estás seguro de que quieres cerrar sesión?")) {
